@@ -11,13 +11,13 @@ export const HomeDemo = (): JSX.Element => {
     >
       <div className="w-full max-w-[1440px]">
         <HeroSection />
-        <div className="py-[126px]">
+        <div className="py-[126px]" id="about-me-section">
           <AboutMeSection />
         </div>
-        <div className="py-[126px]">
+        <div className="py-[126px]" id="related-posts-section">
           <RelatedPostsSection />
         </div>
-        <div className="py-[126px]">
+        <div className="py-[126px]" id="featured-posts-section">
           <FeaturedPostsSection />
         </div>
       </div>

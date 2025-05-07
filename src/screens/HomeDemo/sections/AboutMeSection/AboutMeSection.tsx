@@ -1,14 +1,32 @@
+import { useState, useEffect } from 'react';
 import { Button } from "../../../../components/ui/button.tsx";
 import { Card, CardContent } from "../../../../components/ui/card.tsx";
+import aboutMe1 from '../../../../assets/img/about_me/about_me_1.png';
+import aboutMe2 from '../../../../assets/img/about_me/about_me_2.png';
+import aboutMe3 from '../../../../assets/img/about_me/about_me_3.png';
+import aboutMe4 from '../../../../assets/img/about_me/about_me_4.png';
+import { useScrollAnimation } from '../../../../hooks/useScrollAnimation';
 
 export const AboutMeSection = (): JSX.Element => {
-  // Pagination dots data
-  const paginationDots = [
-    { active: true },
-    { active: false },
-    { active: false },
-    { active: false },
-  ];
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const images = [aboutMe1, aboutMe2, aboutMe3, aboutMe4];
+  const isVisible = useScrollAnimation('about-me-section', 0.2);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % images.length);
+    }, 15000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const handlePrevSlide = () => {
+    setCurrentSlide((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+
+  const handleNextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % images.length);
+  };
 
   // About me content data
   const aboutMeDetails = [
@@ -19,23 +37,75 @@ export const AboutMeSection = (): JSX.Element => {
   ];
 
   return (
-    <section className="relative w-full h-[766px] bg-[#c4cbce]">
+    <section className={`relative w-full h-[766px] transition-all duration-700 ease-in-out ${
+      isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+    }`}>
       <div className="flex h-full">
         {/* Left side with image */}
         <div className="relative w-[863px] h-full">
-          <img
-            className="w-full h-full object-cover"
-            alt="Profile image"
-            src="https://c.animaapp.com/MyRMXIDS/img/img-0197-min-1.png"
-          />
-          <div className="absolute inset-0 [background:linear-gradient(0deg,rgba(0,0,0,0.6)_3%,rgba(0,0,0,0.4)_24%,rgba(102,102,102,0.1)_89%)]" />
+          {images.map((image, index) => (
+            <div
+              key={index}
+              className={`absolute inset-0 transition-opacity duration-1000 ${
+                index === currentSlide ? 'opacity-100' : 'opacity-0'
+              }`}
+            >
+              <img
+                className="w-full h-full object-cover"
+                alt={`About me slide ${index + 1}`}
+                src={image}
+              />
+              <div className="absolute inset-0 [background:linear-gradient(0deg,rgba(0,0,0,0.6)_3%,rgba(0,0,0,0.4)_24%,rgba(102,102,102,0.1)_89%)]" />
+            </div>
+          ))}
+
+          {/* Navigation arrows */}
+          <button
+            onClick={handlePrevSlide}
+            className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/20 hover:bg-white/30 transition-colors duration-300 flex items-center justify-center z-10"
+          >
+            <svg
+              className="w-6 h-6 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </button>
+          <button
+            onClick={handleNextSlide}
+            className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/20 hover:bg-white/30 transition-colors duration-300 flex items-center justify-center z-10"
+          >
+            <svg
+              className="w-6 h-6 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
 
           {/* Pagination dots */}
           <div className="absolute bottom-[49px] left-1/2 -translate-x-1/2 flex gap-[18px]">
-            {paginationDots.map((dot, index) => (
-              <div
+            {images.map((_, index) => (
+              <button
                 key={index}
-                className={`w-2 h-2 rounded-[4px] ${dot.active ? "bg-white" : "bg-[#ffffff33]"}`}
+                onClick={() => setCurrentSlide(index)}
+                className={`w-2 h-2 rounded-[4px] transition-colors duration-300 ${
+                  index === currentSlide ? "bg-white" : "bg-[#ffffff33]"
+                }`}
               />
             ))}
           </div>

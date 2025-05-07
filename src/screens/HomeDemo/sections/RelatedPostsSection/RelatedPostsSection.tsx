@@ -1,6 +1,9 @@
 import { Card, CardContent } from "../../../../components/ui/card.tsx";
+import { useScrollAnimation } from "../../../../hooks/useScrollAnimation";
 
 export const RelatedPostsSection = (): JSX.Element => {
+  const isVisible = useScrollAnimation('related-posts-section', 0.2);
+
   // Data for the posts to enable mapping
   const posts = [
     {
@@ -31,7 +34,9 @@ export const RelatedPostsSection = (): JSX.Element => {
   ];
 
   return (
-    <section className="w-full bg-[#e5e5e54c] px-4">
+    <section className={`w-full bg-[#e5e5e54c] px-4 transition-all duration-700 ease-in-out ${
+      isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+    }`}>
       <div className="max-w-[1440px] mx-auto">
         <h2 className="font-bold text-4xl text-[#495057] tracking-[3.60px] leading-[25px] mb-12 [font-family:'Lora',Helvetica]">
           Hot Posts
