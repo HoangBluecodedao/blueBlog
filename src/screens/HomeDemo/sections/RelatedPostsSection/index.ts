@@ -1,0 +1,1 @@
+export { RelatedPostsSection } from "./RelatedPostsSection";
