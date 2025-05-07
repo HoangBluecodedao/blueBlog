@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover" />
     <meta name="HandheldFriendly" content="true" />
     <meta name="MobileOptimized" content="width" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <!-- <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" /> -->
     <style>
       @import url("https://fonts.googleapis.com/css?family=Lora:700,400|Meow+Script:400|Inter:500,700|Merriweather:400|Mali:700|Roboto:700|Cinzel:700|Poppins:500,700|Mynerve:400");
     </style>
@@ -23,24 +23,24 @@
       }
     </style>
     <script>
-      // Prevent zoom with keyboard shortcuts
-      document.addEventListener('keydown', function(e) {
-        if ((e.ctrlKey || e.metaKey) && (e.key === '-' || e.key === '+' || e.key === '=' || e.key === '0')) {
-          e.preventDefault();
-        }
-      });
+    //   // Prevent zoom with keyboard shortcuts
+    //   document.addEventListener('keydown', function(e) {
+    //     if ((e.ctrlKey || e.metaKey) && (e.key === '-' || e.key === '+' || e.key === '=' || e.key === '0')) {
+    //       e.preventDefault();
+    //     }
+    //   });
 
-      // Prevent zoom with mouse wheel
-      document.addEventListener('wheel', function(e) {
-        if (e.ctrlKey || e.metaKey) {
-          e.preventDefault();
-        }
-      }, { passive: false });
+    //   // Prevent zoom with mouse wheel
+    //   document.addEventListener('wheel', function(e) {
+    //     if (e.ctrlKey || e.metaKey) {
+    //       e.preventDefault();
+    //     }
+    //   }, { passive: false });
 
-      // Prevent zoom with pinch gesture
-      document.addEventListener('gesturestart', function(e) {
-        e.preventDefault();
-      });
+    //   // Prevent zoom with pinch gesture
+    //   document.addEventListener('gesturestart', function(e) {
+    //     e.preventDefault();
+    //   });
 
       // Force zoom level to 100%
       function forceZoom() {

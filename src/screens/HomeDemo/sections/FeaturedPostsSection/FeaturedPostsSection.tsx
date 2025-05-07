@@ -2,6 +2,7 @@ import { useScrollAnimation } from "../../../../hooks/useScrollAnimation";
 import { useTypingAnimation } from "../../../../hooks/useTypingAnimation";
 import { useEffect, useState } from "react";
 import { Card, CardContent } from "../../../../components/ui/card";
+import { useSwipeable } from 'react-swipeable';
 import featurePost1 from "../../../../assets/img/feature_post/feature_post_1.png";
 import featurePost2 from "../../../../assets/img/feature_post/feature_post_2.png";
 import featurePost3 from "../../../../assets/img/feature_post/feature_post_3.png";
@@ -79,15 +80,6 @@ export const FeaturedPostsSection = (): JSX.Element => {
     }
   }, [isVisible]);
 
-  // Auto slide change
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % 3);
-    }, 15000); // Change slide every 15 seconds
-
-    return () => clearInterval(timer);
-  }, []);
-
   const handlePrevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + 3) % 3);
   };
@@ -95,6 +87,15 @@ export const FeaturedPostsSection = (): JSX.Element => {
   const handleNextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % 3);
   };
+
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: handleNextSlide,
+    onSwipedRight: handlePrevSlide,
+    trackMouse: true,
+    trackTouch: true,
+    delta: 10,
+    swipeDuration: 500,
+  });
 
   const posts = [
     {
@@ -164,15 +165,19 @@ export const FeaturedPostsSection = (): JSX.Element => {
   ];
 
   return (
-    <section className={`relative w-full h-[601px] transition-all duration-700 ease-in-out ${
+    <section id="featured-posts-section" className={`relative w-full h-[601px] transition-all duration-700 ease-in-out ${
       isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
     }`}>
-      <div className="relative h-full">
+      <div className="relative h-full" {...swipeHandlers}>
         {posts.map((post, index) => (
           <div
             key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ${
-              index === currentSlide ? 'opacity-100' : 'opacity-0'
+            className={`absolute inset-0 transition-all duration-700 ease-in-out ${
+              index === currentSlide 
+                ? 'opacity-100 translate-x-0' 
+                : index < currentSlide 
+                  ? 'opacity-0 -translate-x-full' 
+                  : 'opacity-0 translate-x-full'
             }`}
           >
             <img
@@ -181,7 +186,9 @@ export const FeaturedPostsSection = (): JSX.Element => {
               src={post.image}
             />
             <div className="absolute inset-0 bg-[#0000004c]" />
-            {post.content}
+            <div className="absolute inset-0 flex items-center justify-center">
+              {post.content}
+            </div>
           </div>
         ))}
 

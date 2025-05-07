@@ -34,7 +34,7 @@ export const RelatedPostsSection = (): JSX.Element => {
   ];
 
   return (
-    <section className={`w-full bg-[#e5e5e54c] px-4 transition-all duration-700 ease-in-out ${
+    <section id="related-posts-section" className={`w-full bg-[#e5e5e54c] px-4 transition-all duration-700 ease-in-out ${
       isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
     }`}>
       <div className="max-w-[1440px] mx-auto">
@@ -46,7 +46,7 @@ export const RelatedPostsSection = (): JSX.Element => {
           {posts.map((post) => (
             <Card
               key={post.id}
-              className="w-[calc(33.33%-20px)] h-[420px] border-0 rounded-none overflow-hidden relative shadow-[0_0_20px_rgba(0,0,0,0.13),0_0_60px_rgba(0,0,0,0.06),0_0_100px_rgba(102,102,102,0.1)]"
+              className="w-[calc(33.33%-20px)] h-[420px] border-0 rounded-none relative shadow-[0_0_20px_rgba(0,0,0,0.13),0_0_60px_rgba(0,0,0,0.06),0_0_100px_rgba(102,102,102,0.1)]"
             >
               <div
                 className="absolute inset-0 bg-cover bg-center"

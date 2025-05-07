@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from "../../../../components/ui/button.tsx";
 import { Card, CardContent } from "../../../../components/ui/card.tsx";
+import { useSwipeable } from 'react-swipeable';
 import aboutMe1 from '../../../../assets/img/about_me/about_me_1.png';
 import aboutMe2 from '../../../../assets/img/about_me/about_me_2.png';
 import aboutMe3 from '../../../../assets/img/about_me/about_me_3.png';
@@ -28,6 +29,15 @@ export const AboutMeSection = (): JSX.Element => {
     setCurrentSlide((prev) => (prev + 1) % images.length);
   };
 
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: handleNextSlide,
+    onSwipedRight: handlePrevSlide,
+    trackMouse: true,
+    trackTouch: true,
+    delta: 10,
+    swipeDuration: 500,
+  });
+
   // About me content data
   const aboutMeDetails = [
     "Sinh năm 2006, cung song tử.",
@@ -40,14 +50,18 @@ export const AboutMeSection = (): JSX.Element => {
     <section className={`relative w-full h-[766px] transition-all duration-700 ease-in-out ${
       isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
     }`}>
-      <div className="flex h-full">
+      <div className="flex h-full px-[120px] scale-[0.75] origin-center">
         {/* Left side with image */}
-        <div className="relative w-[863px] h-full">
+        <div className="relative w-[863px] h-full" {...swipeHandlers}>
           {images.map((image, index) => (
             <div
               key={index}
-              className={`absolute inset-0 transition-opacity duration-1000 ${
-                index === currentSlide ? 'opacity-100' : 'opacity-0'
+              className={`absolute inset-0 transition-all duration-700 ease-in-out ${
+                index === currentSlide 
+                  ? 'opacity-100 translate-x-0' 
+                  : index < currentSlide 
+                    ? 'opacity-0 -translate-x-full' 
+                    : 'opacity-0 translate-x-full'
               }`}
             >
               <img
